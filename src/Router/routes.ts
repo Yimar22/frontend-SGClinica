@@ -1,3 +1,4 @@
+import CreatePoll from "../Pages/CreatePoll";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
@@ -28,6 +29,12 @@ const routes : Route[] =[
     {
         path:"/user",
         component: User, 
+        routeType:"PRIVATE"
+    },
+    //Ruta para crear las polls
+    {
+        path:"/createpoll",
+        component: CreatePoll, 
         routeType:"PRIVATE"
     },
 ]

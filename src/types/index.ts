@@ -4,6 +4,33 @@ export type User = {
     isAuthenticated: boolean
 };
 
+//POLL
+export type Poll = {
+    id:string,
+    errors:{},
+    content:string,
+    opened:boolean,
+    questions: Question[]
+}
+
+//QUESTIONS
+export type Question ={
+    id: string,
+    content: string, 
+    questionOrder: number,
+    type: QuestionType,
+    answers: Answer[]
+}
+
+//QUESTION TYPE
+export type QuestionType = "RADIO" | "CHECKBOX" | "SELECT" | "CADENA"
+
+//ANSWERS
+export type Answer={
+    id: string,
+    content:string
+}
+
 //TIPOS DE RUTA
 export type RouteType =  "PRIVATE" | "PUBLIC" | "GUEST";
 
