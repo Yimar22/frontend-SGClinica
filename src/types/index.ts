@@ -41,3 +41,24 @@ export type Route = {
     component: any,
     routeType: RouteType
 }
+//type para saber que tipo de respuesta estamos enviando  
+export type UserAnswer = {
+    questionId : number
+    answer: string | number  //puede ser una sola respuesta o varias
+    type: QuestionType
+}
+
+//tipado para mandar la respuesta al backend
+export type PollReplyDetail = {
+    questionId : number
+    answerId: string | number  //puede ser una sola respuesta o varias
+    answerContent: string
+}
+
+
+//tipado para mandar el formulario al backend
+export type PollReply = {
+    pollReplies: PollReplyDetail[]
+    user:string,
+    poll: number
+}

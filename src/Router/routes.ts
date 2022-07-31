@@ -2,6 +2,7 @@ import CreatePoll from "../Pages/CreatePoll";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import ReplyPoll from "../Pages/ReplyPoll";
 import User from "../Pages/User";
 import { Route } from "../types";
 
@@ -10,15 +11,10 @@ const routes : Route[] =[
     //Ruta para el Home
     {
         path:"/",
-        component: Home,
-        routeType:"PUBLIC"
-    },
-    //Ruta para el Login
-    {
-        path:"/login",
-        component: Login, 
+        component: Login,
         routeType:"GUEST"
     },
+   
     //Ruta para el Register
     {
         path:"/register",
@@ -37,6 +33,12 @@ const routes : Route[] =[
         component: CreatePoll, 
         routeType:"PRIVATE"
     },
+    //ruta para responder poll
+    {
+        path:"/replypoll/:id", //lo que viene después de los : lo toma como parametro de la ruta
+        component: ReplyPoll, 
+        routeType:"PUBLIC"
+    }
 ]
 
 export default routes;

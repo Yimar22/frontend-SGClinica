@@ -18,7 +18,7 @@ const AppRoute=(props: AppRouteProps)=>{
                 if(user.isAuthenticated){
                     return <Component {...routeProps}></Component>
                 }else{
-                    return <Redirect to="/login"></Redirect>
+                    return <Redirect to="/"></Redirect>
                 }
             //Rutas de invitados
             case "GUEST":
