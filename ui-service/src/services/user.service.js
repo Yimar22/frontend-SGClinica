@@ -1,6 +1,5 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-//const API_URL = "http://20.96.37.192:8080/";
 const API_URL = "http://localhost:8080/";
 const API_USER = "user";
 const API_PERSONAL_INFORMATION = "personalinformation";
@@ -39,10 +38,10 @@ const getAllRoles = () => {
     });
 };
 
-const register = (username, password, rolesIds, professionalCard) => {
+const register = (username, password, rolesIds) => {
   return axios.post(
     API_URL + API_USER,
-    { username, password, rolesIds, professionalCard },
+    { username, password, rolesIds },
     { headers: authHeader() }
   );
 };

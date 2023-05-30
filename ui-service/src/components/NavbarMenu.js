@@ -46,7 +46,7 @@ function NavbarC() {
         className="mb-3 navbarcolor"
       >
         <Container fluid>
-          <Navbar.Brand href="/home" placement="start">
+          <Navbar.Brand href="/" placement="start">
             <img src={emtImage} className="emtImg" alt="emt" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${false}`} />

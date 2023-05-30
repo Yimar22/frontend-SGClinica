@@ -69,14 +69,9 @@ export const getUserByUsername = createAsyncThunk(
 
 export const register = createAsyncThunk(
   "user/register",
-  async ({ username, password, rolesIds, professionalCard }, thunkAPI) => {
+  async ({ username, password, rolesIds }, thunkAPI) => {
     try {
-      const response = await UserService.register(
-        username,
-        password,
-        rolesIds,
-        professionalCard
-      );
+      const response = await UserService.register(username, password, rolesIds);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error) {

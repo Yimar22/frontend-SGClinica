@@ -7,7 +7,7 @@ const UserDetailsRoles = ({ user, roles }) => {
   const rolesName = (rolesObject) => {
     let rolesarray = [];
     for (const element of rolesObject) {
-      rolesarray.push(element.doimainName);
+      rolesarray.push(element.name);
     }
     return rolesarray;
   };

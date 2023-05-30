@@ -2,12 +2,8 @@ import React, { useEffect } from "react";
 import { Button, Card, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getAllAdmissionsOfPatient,
-  getPatientById,
-} from "../../slices/patient";
+import { getPatientById } from "../../slices/patient";
 import PatientDetailsAdmissionInformation from "./PatientDetailsAdmissionInformation";
-import PatientDetailsAffiliationInformation from "./PatientDetailsAffiliationInformation";
 import PatientDetailsNacionality from "./PatientDetailsNacionality";
 import PatientDetailsPersonalInformation from "./PatientDetailsPersonalInformation";
 const PatientDetails = () => {
@@ -15,13 +11,10 @@ const PatientDetails = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const patientId = params.patientId;
-  const { loading, patient, admissions } = useSelector(
-    (state) => state.patient
-  );
+  const { loading, patient } = useSelector((state) => state.patient);
 
   useEffect(() => {
     dispatch(getPatientById(patientId));
-    dispatch(getAllAdmissionsOfPatient(patientId));
   }, [dispatch, patientId]);
 
   return (
@@ -62,19 +55,7 @@ const PatientDetails = () => {
                     eventKey="admissionInformation"
                     title="Información de admisión"
                   >
-                    <PatientDetailsAdmissionInformation
-                      patient={patient}
-                      admissions={admissions}
-                    />
-                  </Tab>
-                  <Tab
-                    eventKey="affiliationInformation"
-                    title="Información de afiliación"
-                  >
-                    <PatientDetailsAffiliationInformation
-                      patient={patient}
-                      admissions={admissions}
-                    />
+                    <PatientDetailsAdmissionInformation patient={patient} />
                   </Tab>
                 </Tabs>
               </Card.Body>

@@ -11,7 +11,7 @@ const EditUserRoles = ({ user, roles }) => {
   const rolesName = (rolesObject) => {
     let rolesarray = [];
     for (const element of rolesObject) {
-      rolesarray.push(element.doimainName);
+      rolesarray.push(element.name);
     }
     return rolesarray;
   };
@@ -95,7 +95,7 @@ const EditUserRoles = ({ user, roles }) => {
                     className="list-group-item d-flex justify-content-between align-items-start"
                   >
                     <div className="ms-2 me-auto">
-                      <div className="fw-bold">{role.doimainName}</div>
+                      <div className="fw-bold">{role.name}</div>
                       {role.description}
                     </div>
                     <Button
@@ -104,7 +104,7 @@ const EditUserRoles = ({ user, roles }) => {
                         findRolesInCommon(
                           rolesName(roles),
                           rolesName(user.roles)
-                        ).includes(role.doimainName)
+                        ).includes(role.name)
                           ? "danger"
                           : "success"
                       }
@@ -112,7 +112,7 @@ const EditUserRoles = ({ user, roles }) => {
                         findRolesInCommon(
                           rolesName(roles),
                           rolesName(user.roles)
-                        ).includes(role.doimainName)
+                        ).includes(role.name)
                           ? () => handleDeleteRoleToUser(role.name)
                           : () => handleAddRoleToUser(role.name)
                       }
@@ -120,7 +120,7 @@ const EditUserRoles = ({ user, roles }) => {
                       {findRolesInCommon(
                         rolesName(roles),
                         rolesName(user.roles)
-                      ).includes(role.doimainName)
+                      ).includes(role.name)
                         ? "Eliminar"
                         : "Agregar"}
                     </Button>

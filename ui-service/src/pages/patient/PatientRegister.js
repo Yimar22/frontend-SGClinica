@@ -39,20 +39,14 @@ const PatientRegister = () => {
       value: "",
     },
     birthDateYear: "",
-    phoneNumber: "",
-    medicalEntity: "",
-    healthRegime: "",
-    benefitPlan: "",
-    socialStratum: "",
-    caretaker: "",
-    caretakerPhoneNumber: "",
-
-    admissionDay: "",
-    admissionMonth: {
-      value: "",
-    },
-    admissionYear: "",
-    medicalConsultationReason: "",
+    mainDiseaseName: "",
+    mainDiseaseCode: "",
+    secondDiseaseOneName: "",
+    secondDiseaseOneCode: "",
+    secondDiseaseTwoName: "",
+    secondDiseaseTwoCode: "",
+    secondDiseaseThreeName: "",
+    secondDiseaseThreeCode: "",
   };
 
   const handleRegister = (formValue) => {
@@ -67,7 +61,7 @@ const PatientRegister = () => {
     const civilStatusId = civilStatus.value;
     const genderId = genre.value;
     const email = "";
-    const phoneNumber = formValue;
+    const phoneNumber = "";
     const personalInformation = {
       id,
       firstName,
@@ -79,43 +73,47 @@ const PatientRegister = () => {
       phoneNumber,
       address,
     };
+    const {
+      mainDiseaseCode,
+      mainDiseaseName,
+      secondDiseaseOneCode,
+      secondDiseaseOneName,
+      secondDiseaseThreeCode,
+      secondDiseaseThreeName,
+      secondDiseaseTwoCode,
+      secondDiseaseTwoName,
+    } = formValue;
+    const diseaseHistorial = {
+      firstDisease: {
+        code: mainDiseaseCode,
+        name: mainDiseaseName,
+      },
+      secondDisease: {
+        code: secondDiseaseOneCode,
+        name: secondDiseaseOneName,
+      },
+      thirdDisease: {
+        code: secondDiseaseTwoCode,
+        name: secondDiseaseTwoName,
+      },
+      fourthDisease: {
+        code: secondDiseaseThreeCode,
+        name: secondDiseaseThreeName,
+      },
+    };
     const { nationality, migratoryState } = formValue;
     const nationalityStateCode = migratoryState.value;
     const nationalityState = {
       nationality: nationality,
       nationalityStateCode: nationalityStateCode,
     };
-
-    let { medicalEntity, healthRegime, benefitPlan, socialStratum } = formValue;
-    healthRegime = healthRegime.value;
-    const affiliationInformation = {
-      medicalEntity,
-      healthRegime,
-      benefitPlan,
-      socialStratum,
-    };
-
-    let { admissionDay } = formValue;
-    let { admissionMonth } = formValue;
-    let { admissionYear } = formValue;
-    let correctDateFormatForAdmission = `${admissionYear}/${admissionMonth.value}/${admissionDay}`;
-    let admissionDate = new Date(correctDateFormatForAdmission);
-    let { caretaker, caretakerPhoneNumber } = formValue;
-    let { medicalConsultationReason } = formValue;
-    const admissionInformation = {
-      caretaker,
-      caretakerPhoneNumber,
-      admissionDate,
-      medicalConsultationReason,
-    };
-
+    console.log(formik.values);
     dispatch(
       registerPatient({
         id,
         personalInformation,
+        diseaseHistorial,
         nationalityState,
-        affiliationInformation,
-        admissionInformation,
       })
     );
     setSuccessful(true);
@@ -125,8 +123,6 @@ const PatientRegister = () => {
     id: Yup.string().required("Este campo es requerido"),
     firstName: Yup.string().required("Este campo es requerido"),
     lastName: Yup.string().required("Este campo es requerido"),
-    phoneNumber: Yup.string().required("Este campo es requerido"),
-    address: Yup.string().required("Este campo es requerido"),
     birthDateDay: Yup.number()
       .positive()
       .lessThan(32, "Este campo debe ser menor o igual a 31")
@@ -136,21 +132,6 @@ const PatientRegister = () => {
       .positive()
       .moreThan(0, "Este campo debe ser mayor o igual a 1")
       .required("Este campo es requerido"),
-    medicalEntity: Yup.string().required("Este campo es requerido"),
-    benefitPlan: Yup.string().required("Este campo es requerido"),
-    socialStratum: Yup.string().required("Este campo es requerido"),
-    admissionDay: Yup.number()
-      .positive()
-      .lessThan(32, "Este campo debe ser menor o igual a 31")
-      .moreThan(0)
-      .required("Este campo es requerido"),
-    admissionYear: Yup.number()
-      .positive()
-      .moreThan(0, "Este campo debe ser mayor o igual a 1")
-      .required("Este campo es requerido"),
-    caretaker: Yup.string().required("Este campo es requerido"),
-    caretakerPhoneNumber: Yup.string().required("Este campo es requerido"),
-    medicalConsultationReason: Yup.string().required("Este campo es requerido"),
   });
 
   const formik = useFormik({
@@ -396,272 +377,61 @@ const PatientRegister = () => {
                       </Row>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="phoneNumber">
-                        <Form.Label>
-                          <strong>Número de teléfono:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="number"
-                          value={formik.values.phoneNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.phoneNumber &&
-                            formik.touched.phoneNumber
-                          }
-                        ></Form.Control>
-                        {formik.errors.phoneNumber &&
-                        formik.touched.phoneNumber ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.phoneNumber}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="address">
-                        <Form.Label>
-                          <strong>Dirección:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Carrera 11 #95 - 37, Bogotá"
-                          value={formik.values.address}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.address && formik.touched.address
-                          }
-                        ></Form.Control>
-                        {formik.errors.address && formik.touched.address ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.address}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                  </Row>
                   <hr />
-                  <h4 className="text-primary">Información de afiliación</h4>
-                  <Row>
+                  <h4 className="text-primary">
+                    Información Clínica del Paciente
+                  </h4>
+                  <Row className="py-2">
                     <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="medicalEntity">
-                        <Form.Label>
-                          <strong>Entidad:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={formik.values.medicalEntity}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.medicalEntity &&
-                            formik.touched.medicalEntity
-                          }
-                        ></Form.Control>
-                        {formik.errors.medicalEntity &&
-                        formik.touched.medicalEntity ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.medicalEntity}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="healthRegime">
-                        <Form.Label>
-                          <strong>Régimen de salud:</strong>
-                        </Form.Label>
-                        <Form.Select
-                          className="mb-2"
-                          name="healthRegime.value"
-                          onChange={formik.handleChange}
-                        >
-                          <option value="">Seleccione una opción</option>
-                          {userData.healthRegime.map((status, index) => (
-                            <option key={index} value={status.value}>
-                              {status.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                        {formik.errors.healthRegime &&
-                        formik.touched.healthRegime ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.healthRegime}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="benefitPlan">
-                        <Form.Label>
-                          <strong>Plan de beneficios:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={formik.values.benefitPlan}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.benefitPlan &&
-                            formik.touched.benefitPlan
-                          }
-                        ></Form.Control>
-                        {formik.errors.benefitPlan &&
-                        formik.touched.benefitPlan ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.benefitPlan}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="socialStratum">
-                        <Form.Label>
-                          <strong>Estrato:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={formik.values.socialStratum}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.socialStratum &&
-                            formik.touched.socialStratum
-                          }
-                        ></Form.Control>
-                        {formik.errors.socialStratum &&
-                        formik.touched.socialStratum ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.socialStratum}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <h4 className="text-primary">Información del ingreso</h4>
-                  <Row>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group className="my-3" controlId="caretaker">
-                        <Form.Label>
-                          <strong>Responsable:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={formik.values.caretaker}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.caretaker && formik.touched.caretaker
-                          }
-                        ></Form.Control>
-                        {formik.errors.caretaker && formik.touched.caretaker ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.caretaker}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={6} md={12} sm={12}>
-                      <Form.Group
-                        className="my-3"
-                        controlId="caretakerPhoneNumber"
-                      >
-                        <Form.Label>
-                          <strong>Teléfono del Responsable:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="number"
-                          value={formik.values.caretakerPhoneNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.caretakerPhoneNumber &&
-                            formik.touched.caretakerPhoneNumber
-                          }
-                        ></Form.Control>
-                        {formik.errors.caretakerPhoneNumber &&
-                        formik.touched.caretakerPhoneNumber ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.caretakerPhoneNumber}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg={6} md={12} sm={12}>
+                      <Form.Label>
+                        <strong>Enfermedad principal:</strong>
+                      </Form.Label>
                       <Row>
-                        <Form.Label>
-                          <strong>Fecha de Ingreso:</strong>
-                        </Form.Label>
-                        <Col lg={4}>
-                          <Form.Group controlId="admissionDay">
-                            <Form.Control
-                              className="mb-2"
-                              type="number"
-                              placeholder="DD"
-                              value={formik.values.admissionDay}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              isInvalid={
-                                formik.errors.admissionDay &&
-                                formik.touched.admissionDay
-                              }
-                            ></Form.Control>
-                            {formik.errors.admissionDay &&
-                            formik.touched.admissionDay ? (
-                              <Alert className="mt-3" variant="danger">
-                                {formik.errors.admissionDay}
-                              </Alert>
-                            ) : null}
-                          </Form.Group>
-                        </Col>
-                        <Col lg={4}>
-                          <Form.Group controlId="admissionMonth">
-                            <Form.Select
-                              className="mb-2"
-                              name="admissionMonth.value"
-                              onChange={formik.handleChange}
-                            >
-                              <option value="">Seleccione una opción</option>
-                              {userData.months.map((status, index) => (
-                                <option key={index} value={status.value}>
-                                  {status.name}
-                                </option>
-                              ))}
-                            </Form.Select>
-                            {formik.errors.admissionMonth &&
-                            formik.touched.admissionMonth ? (
-                              <Alert className="mt-3" variant="danger">
-                                {formik.errors.admissionMonth}
-                              </Alert>
-                            ) : null}
-                          </Form.Group>
-                        </Col>
-                        <Col lg={4}>
-                          <Form.Group controlId="admissionYear">
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="mainDiseaseCode"
+                          >
                             <Form.Control
                               className="mb-2"
                               type="text"
-                              placeholder="AAAA"
-                              value={formik.values.admissionYear}
+                              placeholder="Código de la enfermedad"
+                              value={formik.values.mainDiseaseCode}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
                               isInvalid={
-                                formik.errors.admissionYear &&
-                                formik.touched.admissionYear
+                                formik.errors.mainDiseaseCode &&
+                                formik.touched.mainDiseaseCode
                               }
                             ></Form.Control>
-                            {formik.errors.admissionYear &&
-                            formik.touched.admissionYear ? (
+                            {formik.errors.mainDiseaseCode &&
+                            formik.touched.mainDiseaseCode ? (
                               <Alert className="mt-3" variant="danger">
-                                {formik.errors.admissionYear}
+                                {formik.errors.mainDiseaseCode}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="mainDiseaseName"
+                          >
+                            <Form.Control
+                              type="text"
+                              placeholder="Nombre de la enfermedad"
+                              value={formik.values.mainDiseaseName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.mainDiseaseName &&
+                                formik.touched.mainDiseaseName
+                              }
+                            ></Form.Control>
+                            {formik.errors.mainDiseaseName &&
+                            formik.touched.mainDiseaseName ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.mainDiseaseName}
                               </Alert>
                             ) : null}
                           </Form.Group>
@@ -669,33 +439,179 @@ const PatientRegister = () => {
                       </Row>
                     </Col>
                     <Col lg={6} md={12} sm={12}>
-                      <Form.Group
-                        className="my-3"
-                        controlId="medicalConsultationReason"
-                      >
-                        <Form.Label>
-                          <strong>Motivo de la consulta:</strong>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={formik.values.medicalConsultationReason}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.medicalConsultationReason &&
-                            formik.touched.medicalConsultationReason
-                          }
-                        ></Form.Control>
-                        {formik.errors.medicalConsultationReason &&
-                        formik.touched.medicalConsultationReason ? (
-                          <Alert className="mt-3" variant="danger">
-                            {formik.errors.medicalConsultationReason}
-                          </Alert>
-                        ) : null}
-                      </Form.Group>
+                      <Form.Label>
+                        <strong>Enfermedad secundaria #1:</strong>
+                      </Form.Label>
+                      <Row>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="secondDiseaseOneCode"
+                          >
+                            <Form.Control
+                              className="mb-2"
+                              type="text"
+                              placeholder="Código de la enfermedad"
+                              value={formik.values.secondDiseaseOneCode}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.secondDiseaseOneCode &&
+                                formik.touched.secondDiseaseOneCode
+                              }
+                            ></Form.Control>
+                            {formik.errors.secondDiseaseOneCode &&
+                            formik.touched.secondDiseaseOneCode ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.secondDiseaseOneCode}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="secondDiseaseOneName"
+                          >
+                            <Form.Control
+                              className="mb-2"
+                              type="text"
+                              placeholder="Nombre de la enfermedad"
+                              value={formik.values.secondDiseaseOneName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.secondDiseaseOneName &&
+                                formik.touched.secondDiseaseOneName
+                              }
+                            ></Form.Control>
+                            {formik.errors.secondDiseaseOneName &&
+                            formik.touched.secondDiseaseOneName ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.secondDiseaseOneName}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
-
+                  <Row className="py-2">
+                    <Col lg={6} md={12} sm={12}>
+                      <Form.Label>
+                        <strong>Enfermedad secundaria #2:</strong>
+                      </Form.Label>
+                      <Row>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="secondDiseaseTwoCode"
+                          >
+                            <Form.Control
+                              className="mb-2"
+                              type="text"
+                              placeholder="Código de la enfermedad"
+                              value={formik.values.secondDiseaseTwoCode}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.secondDiseaseTwoCode &&
+                                formik.touched.secondDiseaseTwoCode
+                              }
+                            ></Form.Control>
+                            {formik.errors.secondDiseaseTwoCode &&
+                            formik.touched.secondDiseaseTwoCode ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.secondDiseaseTwoCode}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="secondDiseaseTwoName"
+                          >
+                            <Form.Control
+                              className="mb-2"
+                              type="text"
+                              placeholder="Nombre de la enfermedad"
+                              value={formik.values.secondDiseaseTwoName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.secondDiseaseTwoName &&
+                                formik.touched.secondDiseaseTwoName
+                              }
+                            ></Form.Control>
+                            {formik.errors.secondDiseaseTwoName &&
+                            formik.touched.secondDiseaseTwoName ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.secondDiseaseTwoName}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg={6} md={12} sm={12}>
+                      <Form.Label>
+                        <strong>Enfermedad secundaria #3:</strong>
+                      </Form.Label>
+                      <Row>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="secondDiseaseThreeCode"
+                          >
+                            <Form.Control
+                              className="mb-2"
+                              type="text"
+                              placeholder="Código de la enfermedad"
+                              value={formik.values.secondDiseaseThreeCode}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.secondDiseaseThreeCode &&
+                                formik.touched.secondDiseaseThreeCode
+                              }
+                            ></Form.Control>
+                            {formik.errors.secondDiseaseThreeCode &&
+                            formik.touched.secondDiseaseThreeCode ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.secondDiseaseThreeCode}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                        <Col lg={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="secondDiseaseThreeName"
+                          >
+                            <Form.Control
+                              className="mb-2"
+                              type="text"
+                              placeholder="Nombre de la enfermedad"
+                              value={formik.values.secondDiseaseThreeName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.secondDiseaseThreeName &&
+                                formik.touched.secondDiseaseThreeName
+                              }
+                            ></Form.Control>
+                            {formik.errors.secondDiseaseThreeName &&
+                            formik.touched.secondDiseaseThreeName ? (
+                              <Alert className="mt-3" variant="danger">
+                                {formik.errors.secondDiseaseThreeName}
+                              </Alert>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
                   <hr />
                   <div className="d-flex flex-row-reverse">
                     <Button variant="primary" type="submit">
@@ -736,7 +652,7 @@ const PatientRegister = () => {
               </Alert>
               <Button
                 variant="outline-primary"
-                onClick={() => navigate("/patients/emtPatients")}
+                onClick={() => navigate("/users/emtPatients")}
               >
                 Volver atrás
               </Button>

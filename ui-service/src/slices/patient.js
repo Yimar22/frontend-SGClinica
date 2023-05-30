@@ -26,48 +26,44 @@ const initialState = {
       address: "",
       age: "",
     },
-    nationalityState: {
+    diseaseHistorial: {
+      firstDisease: {
+        code: "",
+        name: "",
+      },
+      secondDisease: {
+        code: "",
+        name: "",
+      },
+      thirdDisease: {
+        code: "",
+        name: "",
+      },
+      fourthDisease: {
+        code: "",
+        name: "",
+      },
+    },
+    nationalityStateRetrievalDTO: {
       nationality: "",
       nationalityStateCode: "",
       nationalityStateName: "",
     },
-    affiliationInformation: {
-      medicalEntity: "",
-      healthRegime: "",
-      benefitPlan: "",
-      socialStratum: "",
-    },
-    admissionInformation: {
-      caretaker: "",
-      caretakerPhoneNumber: "",
-      admissionDate: "",
-    },
-    medicalConsultation: {
-      medicalConsultationReason: "",
-    },
   },
-  admissions: [{ id: "", admissionDate: "", caretaker: "" }],
 };
 
 export const registerPatient = createAsyncThunk(
   "user/registerPatient",
   async (
-    {
-      id,
-      personalInformation,
-      nationalityState,
-      affiliationInformation,
-      admissionInformation,
-    },
+    { id, personalInformation, diseaseHistorial, nationalityState },
     thunkAPI
   ) => {
     try {
       const response = await PatientService.registerPatient(
         id,
         personalInformation,
-        nationalityState,
-        affiliationInformation,
-        admissionInformation
+        diseaseHistorial,
+        nationalityState
       );
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
@@ -90,24 +86,6 @@ export const getAllPatients = createAsyncThunk(
     try {
       const data = await PatientService.getAllPatients();
       return { patients: data };
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-  }
-);
-export const getAllAdmissionsOfPatient = createAsyncThunk(
-  "patient/getAllAdmissionsOfPatient",
-  async (id, thunkAPI) => {
-    try {
-      const data = await PatientService.getAllAdmissionsOfPatient(id);
-      return { admissions: data };
     } catch (error) {
       const message =
         (error.response &&
@@ -171,16 +149,6 @@ const patientSlice = createSlice({
       state.patient = action.payload.patient;
     },
     [getPatientById.rejected]: (state, action) => {
-      state.loading = false;
-    },
-    [getAllAdmissionsOfPatient.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [getAllAdmissionsOfPatient.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.admissions = action.payload.admissions;
-    },
-    [getAllAdmissionsOfPatient.rejected]: (state, action) => {
       state.loading = false;
     },
   },

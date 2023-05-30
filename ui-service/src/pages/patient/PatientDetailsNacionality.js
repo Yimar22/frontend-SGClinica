@@ -29,7 +29,7 @@ const PatientDetailsNacionality = ({ patient }) => {
                     <Col lg={12} md={8} sm={8}>
                       <Form.Control
                         type="text"
-                        value={patient.nationalityState.nationality}
+                        value={patient.nationalityStateRetrievalDTO.nationality}
                         disabled={true}
                       ></Form.Control>
                     </Col>
@@ -45,7 +45,10 @@ const PatientDetailsNacionality = ({ patient }) => {
                     <Col lg={12} md={8} sm={8}>
                       <Form.Control
                         type="text"
-                        value={patient.nationalityState.nationalityStateName}
+                        value={
+                          patient.nationalityStateRetrievalDTO
+                            .nationalityStateName
+                        }
                         disabled={true}
                       ></Form.Control>
                     </Col>

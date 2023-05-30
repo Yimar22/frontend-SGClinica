@@ -3,7 +3,6 @@ import { Button, Card, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPatientById } from "../../../slices/patient";
-import PatientClincHistoryList from "./PatientClinicHistoryList";
 import PatientCreateNewClinicHistory from "./PatientCreateNewClinicHistory";
 
 const PatientClinicHistoryFormats = () => {
@@ -17,7 +16,7 @@ const PatientClinicHistoryFormats = () => {
     dispatch(getPatientById(patientId));
   }, [dispatch, patientId]);
   return (
-    <Container className="mt-5 mb-5">
+    <Container className="mt-5">
       {!loading ? (
         <Row>
           <Col lg="10" md="10" sm="10" className="mx-auto">
@@ -41,9 +40,7 @@ const PatientClinicHistoryFormats = () => {
                   <Tab
                     eventKey="patientClinicHistorySummary"
                     title="Historias clínicas del paciente"
-                  >
-                    <PatientClincHistoryList patient={patient} />
-                  </Tab>
+                  ></Tab>
                   <Tab
                     eventKey="patientNewClinicHistory"
                     title="Nueva historia clínica para el paciente"

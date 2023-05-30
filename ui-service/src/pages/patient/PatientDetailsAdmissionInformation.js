@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 
-const PatientDetailsAdmissionInformation = ({ patient, admissions }) => {
+const PatientDetailsAdmissionInformation = ({ patient }) => {
   return (
     <>
       <Card>
@@ -20,53 +20,24 @@ const PatientDetailsAdmissionInformation = ({ patient, admissions }) => {
           </h5>
           <Form>
             <Row>
-              {admissions.map((admission) => (
-                <>
-                  <Col lg={4} md={12} sm={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        <strong>Identificador:</strong>
-                      </Form.Label>
+              <Col lg={6} md={12} sm={12}>
+                <Form.Group className="mb-3" controlId="nacionality">
+                  <Form.Label>
+                    <strong>Fecha de ingreso:</strong>
+                  </Form.Label>
+                  <Row>
+                    <Col lg={12} md={8} sm={8}>
                       <Form.Control
                         type="text"
-                        value={admission.id}
+                        value={new Date(
+                          patient.creationDate
+                        ).toLocaleDateString()}
                         disabled={true}
                       ></Form.Control>
-                    </Form.Group>
-                  </Col>
-                  <Col lg={4} md={12} sm={12}>
-                    <Form.Group className="mb-3" controlId="nacionality">
-                      <Form.Label>
-                        <strong>Fecha de ingreso:</strong>
-                      </Form.Label>
-                      <Row>
-                        <Col lg={12} md={8} sm={8}>
-                          <Form.Control
-                            type="text"
-                            value={new Date(
-                              admission.admissionDate
-                            ).toLocaleDateString()}
-                            disabled={true}
-                          ></Form.Control>
-                        </Col>
-                      </Row>
-                    </Form.Group>
-                  </Col>
-                  <Col lg={4} md={12} sm={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        <strong>Responsable:</strong>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={admission.caretaker}
-                        disabled={true}
-                      ></Form.Control>
-                    </Form.Group>
-                  </Col>
-                  <hr />
-                </>
-              ))}
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Col>
             </Row>
           </Form>
         </Card.Body>
