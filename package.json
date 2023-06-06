@@ -1,0 +1,17 @@
+{
+  "name": "frontend-sgclinica",
+  "version": "1.0.0",
+  "description": "these are the cypress tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "keywords": [
+    "ui-testing",
+    "dojo",
+    "practice",
+    "cypress"
+  ],
+  "author": "Yimar, Sergio, Diego",
+  "license": "ISC"
+}
