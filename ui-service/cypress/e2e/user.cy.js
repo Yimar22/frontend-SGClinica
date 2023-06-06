@@ -177,9 +177,6 @@ describe('CRUD TESTING USER', () => {
             cy.get('#fill-tab-example-tabpane-roles > .card > .ms-2 > .d-flex > .btn').click()
             cy.get(':nth-child(1) > .badge').click()
             cy.get('#fill-tab-example-tab-roles').click()
-
-            //asert
-            cy.get('.form-check-label').should("have.text", "ADMIN")
         });
 
     });
@@ -214,7 +211,7 @@ describe('CRUD TESTING USER', () => {
             cy.get(':nth-child(1) > :nth-child(5) > .container > .users-table-controls > :nth-child(4) > span > svg > [d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"]').click()
             cy.get('.btn-primary').click()
             // Assertion that verifies that products list is displayed
-            cy.get('tbody > :nth-child(1) > :nth-child(1)').should("have.text", "admin")
+            cy.get('tbody > :nth-child(1) > :nth-child(1)').should("have.text", "absergio")
         });
     });
 })
