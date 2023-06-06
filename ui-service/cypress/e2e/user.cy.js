@@ -3,11 +3,13 @@ describe('CRUD TESTING USER', () => {
     describe('Verifying Login Process ', () => {
 
         beforeEach(() => {
+
             cy.clearCookies();
             cy.visit("http://localhost:3000");
         });
 
         it("Login should notify when a wrong username/password combination is used.", () => {
+
             cy.get('#username').type("testUser");
             cy.get('#password').type("testPass");
             cy.get('.btn').click();
@@ -29,39 +31,37 @@ describe('CRUD TESTING USER', () => {
         });
     })
 
-    describe('Delete Testing', () => {
+    
+
+
+    describe("Verifying User Info", () => {
 
         beforeEach(() => {
+
             cy.clearCookies();
             cy.visit("http://localhost:3000");
-            cy.get('#username').type("admin");
-            cy.get('#password').type("testpassword");
-            cy.get('.btn').click();
+            cy.get("#username").type("admin");
+            cy.get("#password").type("testpassword");
+            cy.get(".btn").click();
+        });
+
+        it("Read Should Work For First User In The List", () => {
+
             cy.get('.navbar-toggler-icon').click();
+            cy.get(':nth-child(1) > #offcanvasNavbarDropdown-expand-false').click();
+            cy.get('[href="/users/emtUsers"]').click();
+            cy.get(':nth-child(1) > :nth-child(5) > .container > .users-table-controls > :nth-child(1) > span > svg ').click();
+            cy.get('#firstName').should("have.text", "");
+            cy.get('#fill-tab-example-tab-contactInformation').click();
+            cy.get('#phone').should("have.text", "");
+            cy.get('#fill-tab-example-tab-roles').click();
+            cy.get('#fill-tab-example-tab-status').click();
+            cy.get('h6 > strong').should("have.text","activo");
+
         });
 
-
-        it("Should Cancel Delete", () => {
-
-            cy.get(':nth-child(1) > #offcanvasNavbarDropdown-expand-false').click()
-            cy.get('[href="/users/emtUsers"]').click()
-            cy.get(':nth-child(1) > :nth-child(5) > .container > .users-table-controls > :nth-child(4) > span > svg > [d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"]').click()
-            cy.get('.modal-footer > .btn-secondary').click()
-
-            // Assertion that verifies that products list is displayed
-            cy.get('tbody > :nth-child(1) > :nth-child(1)').should("have.text", "AAJohn Doe")
-        });
-
-        it("Should Delete", () => {
-
-            cy.get(':nth-child(1) > #offcanvasNavbarDropdown-expand-false').click()
-            cy.get('[href="/users/emtUsers"]').click()
-            cy.get(':nth-child(1) > :nth-child(5) > .container > .users-table-controls > :nth-child(4) > span > svg > [d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"]').click()
-            cy.get('.btn-primary').click()
-            // Assertion that verifies that products list is displayed
-            cy.get('tbody > :nth-child(1) > :nth-child(1)').should("have.text", "admin")
-        });
     });
+
 
     describe('Update Testing', () => {
 
@@ -119,5 +119,39 @@ describe('CRUD TESTING USER', () => {
             cy.get('.form-check-label').should("have.text", "ADMIN")
         });
 
+    });
+
+    describe('Delete Testing', () => {
+
+        beforeEach(() => {
+            cy.clearCookies();
+            cy.visit("http://localhost:3000");
+            cy.get('#username').type("admin");
+            cy.get('#password').type("testpassword");
+            cy.get('.btn').click();
+            cy.get('.navbar-toggler-icon').click();
+        });
+
+
+        it("Should Cancel Delete", () => {
+
+            cy.get(':nth-child(1) > #offcanvasNavbarDropdown-expand-false').click()
+            cy.get('[href="/users/emtUsers"]').click()
+            cy.get(':nth-child(1) > :nth-child(5) > .container > .users-table-controls > :nth-child(4) > span > svg > [d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"]').click()
+            cy.get('.modal-footer > .btn-secondary').click()
+
+            // Assertion that verifies that products list is displayed
+            cy.get('tbody > :nth-child(1) > :nth-child(1)').should("have.text", "AAJohn Doe")
+        });
+
+        it("Should Delete", () => {
+
+            cy.get(':nth-child(1) > #offcanvasNavbarDropdown-expand-false').click()
+            cy.get('[href="/users/emtUsers"]').click()
+            cy.get(':nth-child(1) > :nth-child(5) > .container > .users-table-controls > :nth-child(4) > span > svg > [d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"]').click()
+            cy.get('.btn-primary').click()
+            // Assertion that verifies that products list is displayed
+            cy.get('tbody > :nth-child(1) > :nth-child(1)').should("have.text", "admin")
+        });
     });
 })
