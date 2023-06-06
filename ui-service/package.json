@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "ui-service",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +11,7 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "date-fns": "^2.29.2",
+    "dotenv": "^16.1.4",
     "formik": "^2.2.9",
     "node-sass": "^7.0.1",
     "react": "^16.13.0",
@@ -39,7 +41,8 @@
     "build": "react-scripts build",
     "test": "cypress open",
     "test:open": "cypress open",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:contract": "mocha test/contract/**/*.test.js -r dotenv/config"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +63,9 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^12.13.0"
+    "@pact-foundation/pact": "^11.0.2",
+    "chai": "^4.3.7",
+    "cypress": "^12.13.0",
+    "mocha": "^10.2.0"
   }
 }
